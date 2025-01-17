@@ -20,5 +20,5 @@ public interface ProjectRepository extends JpaRepository<Projects, Long> {
 
     public Projects findByDatabaseStack(String stack);
 
-    public Projects findByDeploymentStack(String stack);
+
 }

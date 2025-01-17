@@ -2,7 +2,11 @@ package com.nilsw13.myportefolio.models;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "projects")
 public class Projects {
@@ -32,6 +36,89 @@ public class Projects {
     @Column(name = "database_stack")
     private String databaseStack;
 
-    @Column(name = "deployment_stack")
-    private String deploymentStack;
+    @Column(name = "backend_deployment_stack")
+    private String backendDeploymentStack;
+
+    @Column(name = "frontend_deployment_stack")
+    private String frontendDeploymentStack;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getProjectDescription() {
+        return projectDescription;
+    }
+
+    public void setProjectDescription(String projectDescription) {
+        this.projectDescription = projectDescription;
+    }
+
+    public String getProjectLink() {
+        return projectLink;
+    }
+
+    public void setProjectLink(String projectLink) {
+        this.projectLink = projectLink;
+    }
+
+    public String getImageS3Url() {
+        return imageS3Url;
+    }
+
+    public void setImageS3Url(String imageS3Url) {
+        this.imageS3Url = imageS3Url;
+    }
+
+    public String getBackendStack() {
+        return backendStack;
+    }
+
+    public void setBackendStack(String backendStack) {
+        this.backendStack = backendStack;
+    }
+
+    public String getFrontendStack() {
+        return frontendStack;
+    }
+
+    public void setFrontendStack(String frontendStack) {
+        this.frontendStack = frontendStack;
+    }
+
+    public String getDatabaseStack() {
+        return databaseStack;
+    }
+
+    public void setDatabaseStack(String databaseStack) {
+        this.databaseStack = databaseStack;
+    }
+
+    public String getBackendDeploymentStack() {
+        return backendDeploymentStack;
+    }
+
+    public void setBackendDeploymentStack(String backendDeploymentStack) {
+        this.backendDeploymentStack = backendDeploymentStack;
+    }
+
+    public String getFrontendDeploymentStack() {
+        return frontendDeploymentStack;
+    }
+
+    public void setFrontendDeploymentStack(String frontendDeploymentStack) {
+        this.frontendDeploymentStack = frontendDeploymentStack;
+    }
 }
