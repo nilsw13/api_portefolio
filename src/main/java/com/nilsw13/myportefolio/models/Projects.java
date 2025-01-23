@@ -42,6 +42,17 @@ public class Projects {
     @Column(name = "frontend_deployment_stack")
     private String frontendDeploymentStack;
 
+    @Column(name = "visible")
+    private boolean visible;
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
     public Long getId() {
         return id;
     }
@@ -121,4 +132,6 @@ public class Projects {
     public void setFrontendDeploymentStack(String frontendDeploymentStack) {
         this.frontendDeploymentStack = frontendDeploymentStack;
     }
+
+
 }

@@ -22,7 +22,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/v1/projects/**").permitAll()  // Notez l'absence de /api
+                        .requestMatchers("/v1/projects/**").permitAll()
+                        .requestMatchers("/v1/messages/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 );
@@ -35,7 +36,13 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // Configuration des origines autorisées
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:5173",
+                "https://b427-2a01-e0a-5f5-6020-80ca-7a07-1240-82b.ngrok-free.app"
+
+                )
+
+        );
 
         // Configuration des méthodes HTTP autorisées
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));

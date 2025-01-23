@@ -40,6 +40,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         project1.setBackendDeploymentStack("Heroku");
         project1.setFrontendDeploymentStack("Vercel");
         project1.setProjectLink("https://photocv-frontend.vercel.app/");
+        project1.setVisible(true);
 
         projectRepository.save(project1);
 
@@ -53,6 +54,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         project2.setBackendDeploymentStack("Heroku");
         project2.setFrontendDeploymentStack("Heroku");
         project2.setProjectLink("https://www.kmchange.fr/");
+        project2.setVisible(true);
 
         projectRepository.save(project2);
 
@@ -60,8 +62,9 @@ public class DatabaseInitializer implements CommandLineRunner {
         Projects project3 = new Projects();
         project3.setProjectName("Open source Java client for Replicate API");
         project3.setProjectDescription("A Java client for Replicate API that developpers users to interact with the Replicate API in a simple way.");
-        project3.setBackendStack("Java - Spring Boot");
+        project3.setBackendStack("Java");
         project3.setBackendDeploymentStack("Maven Central");
+        project3.setVisible(true);
 
 
         projectRepository.save(project3);
@@ -76,6 +79,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         project4.setBackendDeploymentStack("Heroku");
         project4.setFrontendDeploymentStack("Vercel");
         project4.setProjectLink("https://nilsw13.github.io/");
+        project4.setVisible(true);
 
         projectRepository.save(project4);
 
