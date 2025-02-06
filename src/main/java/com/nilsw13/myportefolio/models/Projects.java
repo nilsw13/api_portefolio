@@ -43,7 +43,7 @@ public class Projects {
     @Column(name = "database_stack")
     private String databaseStack;
 
-    @Column(name = "backend_deploymentstack")
+    @Column(name = "backend_deployment_stack")
     private String backendDeploymentStack;
 
     @Column(name = "frontend_deployment_stack")
