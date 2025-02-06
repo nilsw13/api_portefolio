@@ -10,68 +10,69 @@ import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@Order(1)  // S'assure que cette initialisation se fait en premier
+@Order(1)
+@Transactional
 public class DatabaseInitializer implements CommandLineRunner {
 
     private final ProjectRepository projectRepository;
     private final EntityManagerFactory entityManagerFactory;
+    private final JdbcTemplate jdbcTemplate;
 
     public DatabaseInitializer(ProjectRepository projectRepository,
-                               EntityManagerFactory entityManagerFactory) {
+                               EntityManagerFactory entityManagerFactory,
+                               JdbcTemplate jdbcTemplate) {
         this.projectRepository = projectRepository;
         this.entityManagerFactory = entityManagerFactory;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    @Transactional
     public void run(String... args) throws Exception {
-        // Attend que la base de données soit prête
-        waitForDatabase();
+        // Vérifie d'abord si la table existe
+        createTableIfNotExists();
 
+        // Vérifie si des données existent déjà
+        if (projectRepository.count() > 0) {
+            System.out.println("Database already initialized");
+            return;
+        }
+
+        System.out.println("Initializing database with project data...");
         try {
-            // Vérifie si la base de données est vide
-            if (projectRepository.count() > 0) {
-                System.out.println("Database already initialized");
-                return;
-            }
-
-            // Crée et sauvegarde les projets
             initializeProjects();
-
             System.out.println("Database initialization completed successfully");
         } catch (Exception e) {
             System.err.println("Error during database initialization: " + e.getMessage());
-            throw e;  // Relance l'exception pour que Spring puisse la gérer
+            throw e;
         }
     }
 
-    private void waitForDatabase() {
-        int maxAttempts = 5;
-        int attempt = 0;
-        boolean tablesCreated = false;
-
-        while (!tablesCreated && attempt < maxAttempts) {
-            try {
-                EntityManager em = entityManagerFactory.createEntityManager();
-                em.createNativeQuery("SELECT 1 FROM projects").getResultList();
-                tablesCreated = true;
-                em.close();
-            } catch (Exception e) {
-                attempt++;
-                System.out.println("Waiting for database tables to be created... Attempt " + attempt);
-                try {
-                    Thread.sleep(2000); // Attend 2 secondes avant de réessayer
-                } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
-
-        if (!tablesCreated) {
-            throw new RuntimeException("Database tables were not created after " + maxAttempts + " attempts");
+    private void createTableIfNotExists() {
+        try {
+            // Exécute directement la création de table
+            jdbcTemplate.execute("""
+                CREATE TABLE IF NOT EXISTS projects (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    project_name TEXT,
+                    project_description TEXT,
+                    backend_stack TEXT,
+                    frontend_stack TEXT,
+                    database_stack TEXT,
+                    backend_deployment_stack TEXT,
+                    frontend_deployment_stack TEXT,
+                    project_link TEXT,
+                    image_url1 TEXT,
+                    image_url2 TEXT,
+                    visible BOOLEAN
+                )
+            """);
+        } catch (Exception e) {
+            System.err.println("Error creating table: " + e.getMessage());
+            throw e;
         }
     }
 
