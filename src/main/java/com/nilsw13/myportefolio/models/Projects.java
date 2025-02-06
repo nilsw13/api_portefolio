@@ -24,8 +24,15 @@ public class Projects {
     @Column(name = "project_link")
     private String projectLink;
 
-    @Column(name = "image_s3_url")
-    private String imageS3Url;
+
+
+    @Column(name = "image_url_1")
+    private String imageUrl1;
+
+
+
+    @Column(name = "image_url_2")
+    private String imageUrl2;
 
     @Column(name = "backend_stack")
     private String backendStack;
@@ -85,12 +92,20 @@ public class Projects {
         this.projectLink = projectLink;
     }
 
-    public String getImageS3Url() {
-        return imageS3Url;
+    public String getImageUrl1() {
+        return imageUrl1;
     }
 
-    public void setImageS3Url(String imageS3Url) {
-        this.imageS3Url = imageS3Url;
+    public void setImageUrl1(String imageUrl1) {
+        this.imageUrl1 = imageUrl1;
+    }
+
+    public String getImageUrl2() {
+        return imageUrl2;
+    }
+
+    public void setImageUrl2(String imageUrl2) {
+        this.imageUrl2 = imageUrl2;
     }
 
     public String getBackendStack() {

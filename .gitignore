@@ -34,4 +34,4 @@ build/
 
 ### proeperties stop tracking ###
 
-src/main/resources/application.properties
+src/main/resources/application.yaml
