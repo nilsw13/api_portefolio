@@ -4,32 +4,79 @@ import com.nilsw13.myportefolio.models.Messages;
 import com.nilsw13.myportefolio.models.Projects;
 import com.nilsw13.myportefolio.repositories.MessageRepository;
 import com.nilsw13.myportefolio.repositories.ProjectRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
+@Order(1)  // S'assure que cette initialisation se fait en premier
 public class DatabaseInitializer implements CommandLineRunner {
 
     private final ProjectRepository projectRepository;
+    private final EntityManagerFactory entityManagerFactory;
 
-    public DatabaseInitializer(ProjectRepository projectRepository) {
+    public DatabaseInitializer(ProjectRepository projectRepository,
+                               EntityManagerFactory entityManagerFactory) {
         this.projectRepository = projectRepository;
+        this.entityManagerFactory = entityManagerFactory;
     }
 
-
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
+        // Attend que la base de données soit prête
+        waitForDatabase();
 
-        // verify if the database is empty
+        try {
+            // Vérifie si la base de données est vide
+            if (projectRepository.count() > 0) {
+                System.out.println("Database already initialized");
+                return;
+            }
 
-        if (projectRepository.count() > 0) {
-            System.out.println("Database already initialized");
-            return ;
+            // Crée et sauvegarde les projets
+            initializeProjects();
+
+            System.out.println("Database initialization completed successfully");
+        } catch (Exception e) {
+            System.err.println("Error during database initialization: " + e.getMessage());
+            throw e;  // Relance l'exception pour que Spring puisse la gérer
+        }
+    }
+
+    private void waitForDatabase() {
+        int maxAttempts = 5;
+        int attempt = 0;
+        boolean tablesCreated = false;
+
+        while (!tablesCreated && attempt < maxAttempts) {
+            try {
+                EntityManager em = entityManagerFactory.createEntityManager();
+                em.createNativeQuery("SELECT 1 FROM projects").getResultList();
+                tablesCreated = true;
+                em.close();
+            } catch (Exception e) {
+                attempt++;
+                System.out.println("Waiting for database tables to be created... Attempt " + attempt);
+                try {
+                    Thread.sleep(2000); // Attend 2 secondes avant de réessayer
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
+            }
         }
 
-        // create my projects in the database at the start of the application
+        if (!tablesCreated) {
+            throw new RuntimeException("Database tables were not created after " + maxAttempts + " attempts");
+        }
+    }
 
+    private void initializeProjects() {
+        // Votre code existant pour créer les projets
         Projects project1 = new Projects();
 
         project1.setProjectName("Studio Headshot Project");
@@ -95,17 +142,6 @@ public class DatabaseInitializer implements CommandLineRunner {
 
         projectRepository.save(project4);
 
-
-
-
-
-
-
-
-
-
-
-
-
+        // ... rest of your projects ...
     }
 }
