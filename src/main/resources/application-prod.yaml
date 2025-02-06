@@ -5,15 +5,12 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
 
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:schema.sql
+
 
   datasource:
     url: ${DATABASE_URL}
@@ -28,9 +25,7 @@ spring:
 
 
 # Configuration du serveur
-server:
 
-  port: ${PORT:8080}
 
 # Variables d'environnement
 frontend_url: ${FRONTEND_URL}
