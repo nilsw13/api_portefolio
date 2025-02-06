@@ -4,29 +4,38 @@ import com.nilsw13.myportefolio.models.Messages;
 import com.nilsw13.myportefolio.models.Projects;
 import com.nilsw13.myportefolio.repositories.MessageRepository;
 import com.nilsw13.myportefolio.repositories.ProjectRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class DatabaseInitializer implements CommandLineRunner {
 
     private final ProjectRepository projectRepository;
-
-    public DatabaseInitializer(ProjectRepository projectRepository) {
+    private final EntityManagerFactory entityManagerFactory;
+    public DatabaseInitializer(ProjectRepository projectRepository, EntityManagerFactory entityManagerFactory) {
         this.projectRepository = projectRepository;
+        this.entityManagerFactory = entityManagerFactory;
     }
 
 
     @Override
     public void run(String... args) throws Exception {
 
-        // verify if the database is empty
+        waitForDatabase();
 
-        if (projectRepository.count() > 0) {
-            System.out.println("Database already initialized");
-            return ;
-        }else {
+        try {
+            if (projectRepository.count() > 0) {
+                log.info("La base de données contient déjà des projets");
+                return;
+            }
+
+            log.info("Initialisation de la base de données...");
+
             Projects project1 = new Projects();
 
             project1.setProjectName("Studio Headshot Project");
@@ -91,7 +100,8 @@ public class DatabaseInitializer implements CommandLineRunner {
             project4.setVisible(true);
 
             projectRepository.save(project4);
-
+        } catch (Exception e) {
+            log.error("Erreur lors de l'initialisation de la base de données", e);
         }
 
 
@@ -110,5 +120,35 @@ public class DatabaseInitializer implements CommandLineRunner {
 
 
 
+
+
+
+    }
+
+
+    private void waitForDatabase() {
+        int attempts = 0;
+        int maxAttempts = 10;
+        while (attempts < maxAttempts) {
+            try {
+                // Vérifier si la base est prête en essayant d'obtenir une connexion
+                entityManagerFactory.createEntityManager().close();
+                log.info("Base de données prête");
+                return;
+            } catch (Exception e) {
+                attempts++;
+                if (attempts == maxAttempts) {
+                    log.error("Impossible de se connecter à la base de données après " + maxAttempts + " tentatives");
+                    throw e;
+                }
+                log.info("En attente de la base de données... tentative " + attempts);
+                try {
+                    Thread.sleep(5000); // Attendre 5 secondes avant de réessayer
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new RuntimeException(ie);
+                }
+            }
+        }
     }
 }
