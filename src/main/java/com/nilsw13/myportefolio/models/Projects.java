@@ -26,7 +26,7 @@ public class Projects {
 
 
 
-    @Column(name = "image_url_1")
+    @Column(name = "image_url1")
     private String imageUrl1;
 
 
@@ -43,7 +43,7 @@ public class Projects {
     @Column(name = "database_stack")
     private String databaseStack;
 
-    @Column(name = "backend_deployment_stack")
+    @Column(name = "backend_deploymentstack")
     private String backendDeploymentStack;
 
     @Column(name = "frontend_deployment_stack")

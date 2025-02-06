@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS projects (
     backend_deployment_stack VARCHAR(255),
     frontend_deployment_stack VARCHAR(255),
     project_link VARCHAR(255),
-    image_url1 VARCHAR(255),
-    image_url2 VARCHAR(255),
+    image_url_1 VARCHAR(255),
+    image_url_2 VARCHAR(255),
     visible BOOLEAN
     );
