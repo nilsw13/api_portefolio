@@ -1,5 +1,6 @@
 package com.nilsw13.myportefolio.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,9 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${frontend_url}")
+    private String frontendUrl;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,8 +41,7 @@ public class SecurityConfig {
 
         // Configuration des origines autorisées
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173",
-                "https://b427-2a01-e0a-5f5-6020-80ca-7a07-1240-82b.ngrok-free.app"
+               frontendUrl
 
                 )
 
