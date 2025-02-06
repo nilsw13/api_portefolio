@@ -41,14 +41,15 @@ public class SecurityConfig {
 
         // Configuration des origines autorisées
         configuration.setAllowedOrigins(Arrays.asList(
-               frontendUrl
+               frontendUrl,
+                "https://www.nilswenting.com",
+                "https://nilswenting.com"
 
                 )
 
         );
 
-        // Configuration des méthodes HTTP autorisées
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
 
         // Configuration des en-têtes autorisés
         configuration.setAllowedHeaders(Arrays.asList(
@@ -57,8 +58,17 @@ public class SecurityConfig {
                 "Accept",
                 "Origin",
                 "Access-Control-Request-Method",
-                "Access-Control-Request-Headers"
+                "Access-Control-Request-Headers",
+                "X-Requested-With"
         ));
+
+        configuration.setExposedHeaders(Arrays.asList(
+                "Access-Control-Allow-Origin",
+                "Access-Control-Allow-Credentials"
+        ));
+
+        // Configuration des méthodes HTTP autorisées
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
         // Autoriser les credentials (cookies, auth headers)
         configuration.setAllowCredentials(true);
