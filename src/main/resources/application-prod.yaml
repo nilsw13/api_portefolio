@@ -2,39 +2,33 @@ spring:
   application:
     name: myportefolio
 
-  spring:
-    datasource:
-      url: jdbc:sqlite:/tmp/myportefolio.db
-      driver-class-name: org.sqlite.JDBC
-      # Configuration importante pour SQLite
-      hikari:
-        maximum-pool-size: 1
-
-    jpa:
-      database-platform: org.hibernate.community.dialect.SQLiteDialect
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
       hibernate:
-        ddl-auto: none  # Désactive la création automatique des tables
-      properties:
-        hibernate:
-          dialect: org.hibernate.community.dialect.SQLiteDialect
-          format_sql: true
-          # Configuration spécifique pour SQLite
-          connection:
-            handling_mode: DELAYED_ACQUISITION_AND_HOLD
-      show-sql: true
+        format_sql: true
 
-    # Désactive l'initialisation automatique du schéma
-    sql:
-      init:
-        mode: never
+  datasource:
+    url: ${DATABASE_URL}
+    driver-class-name: org.postgresql.Driver
+    # Configuration du pool de connexions pour de meilleures performances
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      idle-timeout: 300000 # 5 minutes
+      connection-timeout: 20000 # 20 secondes
 
 
 
+# Configuration du serveur
+server:
 
+  port: ${PORT:8080}
 
-# Variables d'environnement pour le développement
-frontend_url: {FRONTEND_URL}
-
+# Variables d'environnement
+frontend_url: ${FRONTEND_URL}
 
 # Configuration des logs
 logging:

@@ -49,7 +49,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
         Projects project2 = new Projects();
         project2.setProjectName("KM CHANGE");
-        project2.setProjectDescription("A Money exchange and metals investment shop Website.");
+        project2.setProjectDescription("A Money exchange shop and metals investment.");
         project2.setBackendStack("Java - Spring Boot");
         project2.setFrontendStack("thymeleaf - htmx");
         project2.setDatabaseStack("PostgreSQL");
