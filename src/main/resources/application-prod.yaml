@@ -1,7 +1,4 @@
 spring:
-  application:
-    name: myportefolio
-
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -9,33 +6,20 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
-
+        show_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob.non_contextual_creation: true
+    generate-ddl: true
+    show-sql: true
 
   datasource:
     url: ${DATABASE_URL}
     driver-class-name: org.postgresql.Driver
-    # Configuration du pool de connexions pour de meilleures performances
     hikari:
       maximum-pool-size: 5
       minimum-idle: 2
-      idle-timeout: 300000 # 5 minutes
-      connection-timeout: 20000 # 20 secondes
-
-
-
-# Configuration du serveur
-
-
-# Variables d'environnement
-frontend_url: ${FRONTEND_URL}
-
-# Configuration des logs
-logging:
-  level:
-    root: INFO
-    org:
-      springframework:
-        security: DEBUG
-        web: DEBUG
-        web.cors: TRACE
+      connection-timeout: 20000
+      idle-timeout: 300000
+      auto-commit: true
+      connection-test-query: SELECT 1

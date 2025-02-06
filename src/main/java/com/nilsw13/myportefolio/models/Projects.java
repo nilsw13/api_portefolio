@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+
 @Setter
 @Entity
 @Table(name = "projects")
@@ -29,96 +30,48 @@ public class Projects {
     @Column(name = "image_url_1")
     private String imageUrl1;
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getProjectName() {
-        return projectName;
     }
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
 
-    public String getProjectDescription() {
-        return projectDescription;
-    }
-
     public void setProjectDescription(String projectDescription) {
         this.projectDescription = projectDescription;
-    }
-
-    public String getProjectLink() {
-        return projectLink;
     }
 
     public void setProjectLink(String projectLink) {
         this.projectLink = projectLink;
     }
 
-    public String getImageUrl1() {
-        return imageUrl1;
-    }
-
     public void setImageUrl1(String imageUrl1) {
         this.imageUrl1 = imageUrl1;
-    }
-
-    public String getImageUrl2() {
-        return imageUrl2;
     }
 
     public void setImageUrl2(String imageUrl2) {
         this.imageUrl2 = imageUrl2;
     }
 
-    public String getBackendStack() {
-        return backendStack;
-    }
-
     public void setBackendStack(String backendStack) {
         this.backendStack = backendStack;
-    }
-
-    public String getFrontendStack() {
-        return frontendStack;
     }
 
     public void setFrontendStack(String frontendStack) {
         this.frontendStack = frontendStack;
     }
 
-    public String getDatabaseStack() {
-        return databaseStack;
-    }
-
     public void setDatabaseStack(String databaseStack) {
         this.databaseStack = databaseStack;
-    }
-
-    public String getBackendDeploymentStack() {
-        return backendDeploymentStack;
     }
 
     public void setBackendDeploymentStack(String backendDeploymentStack) {
         this.backendDeploymentStack = backendDeploymentStack;
     }
 
-    public String getFrontendDeploymentStack() {
-        return frontendDeploymentStack;
-    }
-
     public void setFrontendDeploymentStack(String frontendDeploymentStack) {
         this.frontendDeploymentStack = frontendDeploymentStack;
-    }
-
-    public boolean isVisible() {
-        return visible;
     }
 
     public void setVisible(boolean visible) {
