@@ -1,0 +1,4 @@
+# Active le profil en fonction de la variable d'environnement SPRING_PROFILES_ACTIVE
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
