@@ -4,80 +4,32 @@ import com.nilsw13.myportefolio.models.Messages;
 import com.nilsw13.myportefolio.models.Projects;
 import com.nilsw13.myportefolio.repositories.MessageRepository;
 import com.nilsw13.myportefolio.repositories.ProjectRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@Order(1)
-@Transactional
 public class DatabaseInitializer implements CommandLineRunner {
 
     private final ProjectRepository projectRepository;
-    private final EntityManagerFactory entityManagerFactory;
-    private final JdbcTemplate jdbcTemplate;
 
-    public DatabaseInitializer(ProjectRepository projectRepository,
-                               EntityManagerFactory entityManagerFactory,
-                               JdbcTemplate jdbcTemplate) {
+    public DatabaseInitializer(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
-        this.entityManagerFactory = entityManagerFactory;
-        this.jdbcTemplate = jdbcTemplate;
     }
+
 
     @Override
     public void run(String... args) throws Exception {
-        // Vérifie d'abord si la table existe
-        createTableIfNotExists();
 
-        // Vérifie si des données existent déjà
+        // verify if the database is empty
+
         if (projectRepository.count() > 0) {
             System.out.println("Database already initialized");
-            return;
+            return ;
         }
 
-        System.out.println("Initializing database with project data...");
-        try {
-            initializeProjects();
-            System.out.println("Database initialization completed successfully");
-        } catch (Exception e) {
-            System.err.println("Error during database initialization: " + e.getMessage());
-            throw e;
-        }
-    }
+        // create my projects in the database at the start of the application
 
-    private void createTableIfNotExists() {
-        try {
-            // Exécute directement la création de table
-            jdbcTemplate.execute("""
-                CREATE TABLE IF NOT EXISTS projects (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    project_name TEXT,
-                    project_description TEXT,
-                    backend_stack TEXT,
-                    frontend_stack TEXT,
-                    database_stack TEXT,
-                    backend_deployment_stack TEXT,
-                    frontend_deployment_stack TEXT,
-                    project_link TEXT,
-                    image_url1 TEXT,
-                    image_url2 TEXT,
-                    visible BOOLEAN
-                )
-            """);
-        } catch (Exception e) {
-            System.err.println("Error creating table: " + e.getMessage());
-            throw e;
-        }
-    }
-
-    private void initializeProjects() {
-        // Votre code existant pour créer les projets
         Projects project1 = new Projects();
 
         project1.setProjectName("Studio Headshot Project");
@@ -143,6 +95,17 @@ public class DatabaseInitializer implements CommandLineRunner {
 
         projectRepository.save(project4);
 
-        // ... rest of your projects ...
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
