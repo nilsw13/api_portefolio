@@ -26,7 +26,7 @@ public class Projects {
 
 
 
-    @Column(name = "image_url1")
+    @Column(name = "image_url_1")
     private String imageUrl1;
 
 
