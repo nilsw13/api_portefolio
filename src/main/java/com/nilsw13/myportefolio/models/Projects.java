@@ -38,11 +38,12 @@ public class Projects {
     @Column(name = "project_link")
     private String projectLink;
 
-    @Column(name = "image_url_1")
+    @Column(name = "image_url_1")  // Exactement comme dans le schéma SQL
     private String imageUrl1;
 
-    @Column(name = "image_url_2")
+    @Column(name = "image_url_2")  // Exactement comme dans le schéma SQL
     private String imageUrl2;
+
 
     @Column(name = "visible")
     private boolean visible;
