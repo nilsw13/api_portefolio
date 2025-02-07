@@ -17,7 +17,7 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${application.frontend_url}")
+    @Value("${frontend_url}")
     private String frontendUrl;
 
     @Bean

@@ -18,6 +18,13 @@ public class MyportefolioApplication {
     @Bean
     ApplicationRunner applicationRunner(ProjectRepository projectRepository ) {
         return args -> {
+
+
+            if (projectRepository.count() > 0) {
+                System.out.println("Projects already exist");
+                return;
+            }
+
             Projects project1 = new Projects();
 
             project1.setProjectName("Studio Headshot Project");
@@ -60,6 +67,7 @@ public class MyportefolioApplication {
             project3.setBackendDeploymentStack("Railway");
             project3.setFrontendDeploymentStack("Vercel");
             project3.setProjectLink("https://java-top-tools-front.vercel.app/");
+            project3.setProjectRepoLink("https://github.com/nilsw13/JavaTopTools_api");
             project3.setImageUrl1("/projectIllustration/javatoptools1.png");
             project3.setImageUrl2("/projectIllustration/javatoptools2.png");
             project3.setVisible(true);
@@ -73,10 +81,11 @@ public class MyportefolioApplication {
             project4.setProjectDescription("A portfolio website that showcases my projects and skills.");
             project4.setBackendStack("Java - Spring Boot");
             project4.setFrontendStack("ReactJs - Vite");
-            project4.setDatabaseStack("SQLite");
+            project4.setDatabaseStack("PostgreSQL");
             project4.setBackendDeploymentStack("Heroku");
             project4.setFrontendDeploymentStack("Netlify");
             project4.setProjectLink("https://nilswenting.com/");
+            project4.setProjectRepoLink("https://github.com/nilsw13/frontend_portefolio");
             project4.setImageUrl1("/projectIllustration/portfolio1.png");
             project4.setImageUrl2("/projectIllustration/portfolio2.png");
             project4.setVisible(true);
