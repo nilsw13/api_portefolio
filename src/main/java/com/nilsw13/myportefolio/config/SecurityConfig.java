@@ -1,5 +1,6 @@
 package com.nilsw13.myportefolio.config;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/v1/projects/**").permitAll()
-                        .requestMatchers("/v1/messages/**").permitAll()
+                        .requestMatchers("/v1/messages/send").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/messages/send").permitAll()
+                        .requestMatchers("/v1/messages/**").authenticated()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 );
@@ -41,9 +44,10 @@ public class SecurityConfig {
 
         // Configuration des origines autorisées
         configuration.setAllowedOrigins(Arrays.asList(
-               frontendUrl,
+                frontendUrl,
                 "https://www.nilswenting.com",
                 "https://nilswenting.com"
+
 
                 )
 
@@ -80,5 +84,10 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Frontend URL: " + frontendUrl);
     }
 }
